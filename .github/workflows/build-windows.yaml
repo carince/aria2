@@ -1,4 +1,4 @@
-name: Build and Upload aria2c
+name: Build Windows
 
 on:
   push:
