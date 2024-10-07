@@ -15,27 +15,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Build Docker image using dockerfile.mingw
+      # Build Docker image using Dockerfile.mingw
       - name: Build Docker image
-        run: docker build -t my-docker-app -f ./Dockerfile.mingw .
+        run: docker build -t aria2-mingw -f ./Dockerfile.mingw .
 
-      # Run Docker container
-      - name: Run Docker container
-        run: docker run --name my-container my-docker-app
+      # Create Docker container
+      - name: Create Docker container
+        run: docker create --name aria2-container aria2-mingw
 
-      # Copy aria2c file from container to the host
-      - name: Copy aria2c from container
-        run: docker cp my-container:/path/to/aria2c ./src/aria2c
+      # Copy aria2c.exe file from container
+      - name: Copy aria2c.exe from container
+        run: docker cp aria2-container:/aria2/src/aria2c.exe ./src/aria2c.exe
 
-      # Upload aria2c file as an artifact
-      - name: Upload aria2c file
+      # Upload aria2c.exe file as an artifact
+      - name: Upload aria2c.exe file
         uses: actions/upload-artifact@v3
         with:
-          name: aria2c
-          path: ./src/aria2c
+          name: aria2c.exe
+          path: ./src/aria2c.exe
 
-      # Cleanup: Stop and remove the Docker container
+      # Cleanup: Remove the Docker container
       - name: Cleanup Docker container
-        run: |
-          docker stop my-container
-          docker rm my-container
+        run: docker rm -v aria2-container
