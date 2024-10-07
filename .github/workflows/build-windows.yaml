@@ -15,6 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set Proxy
+        run: |
+          echo "HTTP_PROXY=http://67.43.228.253:12915" >> $GITHUB_ENV
+          echo "HTTPS_PROXY=http://67.43.228.253:12915" >> $GITHUB_ENV
+
       # Build Docker image using Dockerfile.mingw
       - name: Build Docker image
         run: docker build -t aria2-mingw -f ./Dockerfile.mingw .
